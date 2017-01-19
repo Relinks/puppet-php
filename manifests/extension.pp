@@ -66,6 +66,7 @@ define php::extension (
   $settings          = {},
   $settings_prefix   = false,
   $sapi              = 'ALL',
+  $priority          = 20,
 ) {
 
   if ! defined(Class['php']) {
@@ -79,6 +80,7 @@ define php::extension (
   validate_string($sapi)
   validate_array($header_packages)
   validate_bool($zend)
+  validate_integer($priority)
 
   if $source and $pecl_source {
     fail('Only one of $source and $pecl_source can be specified.')
@@ -174,7 +176,7 @@ define php::extension (
 
   $config_root_ini = pick_default($::php::config_root_ini, $::php::params::config_root_ini)
   ::php::config { $title:
-    file    => "${config_root_ini}/${lowercase_title}.ini",
+    file    => "${config_root_ini}/${priority}-${lowercase_title}.ini",
     config  => $final_settings,
     require => $package_depends,
   }
