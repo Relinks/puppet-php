@@ -175,10 +175,16 @@ define php::extension (
   )
 
   $config_root_ini = pick_default($::php::config_root_ini, $::php::params::config_root_ini)
-  ::php::config { $title:
-    file    => "${config_root_ini}/${priority}-${lowercase_title}.ini",
-    config  => $final_settings,
-    require => $package_depends,
+  if ($ensure != 'absent') {
+    ::php::config { $title:
+      file    => "${config_root_ini}/${priority}-${lowercase_title}.ini",
+      config  => $final_settings,
+      require => $package_depends,
+    }
+  } else {
+    file { "${config_root_ini}/${priority}-${lowercase_title}.ini":
+      ensure => $ensure
+    }
   }
 
   # Ubuntu/Debian systems use the mods-available folder. We need to enable
