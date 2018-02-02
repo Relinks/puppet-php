@@ -63,7 +63,7 @@ define php::extension (
   Optional[Php::Provider] $provider                 = undef,
   Optional[String] $source                          = undef,
   Optional[String] $so_name                         = downcase($name),
-  Optional[String] $ini_prefix                      = undef,
+  Optional[String] $ini_prefix                      = '20-',
   Optional[String] $php_api_version                 = undef,
   String           $package_prefix                  = $::php::package_prefix,
   Boolean          $zend                            = false,
